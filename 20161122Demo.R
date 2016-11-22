@@ -84,4 +84,56 @@ plot(Price ~ Area, data= house)
 fit <- lm(Price ~ Area, data= house)
 fit
 abline(fit, col="red")
-predict(fit, data.frame(Area = c(32)))
+predict(fit, data.frame(Area = c(20)))
+
+## 線性模型評估
+plot(y2 ~ x, data = Quartet)
+fit1 <- lm(y2 ~ x, data = Quartet)
+abline(fit1, col="red")
+summary(fit1)
+
+fit2 <- lm(y2 ~ poly(x,2), data = Quartet)
+summary(fit2)
+lines(sort(Quartet$x), fit2$fit[order(Quartet$x)], col="blue")
+
+plot(y1 ~ x, data = Quartet)
+fit <- lm(y1 ~ x, data = Quartet)
+abline(fit, col="red")
+
+## 線性模型評估 (lm)
+plot(y3 ~ x, data = Quartet)
+lmfit <- lm(y3~x, data = Quartet)
+abline(lmfit, col="red")
+predicted <- predict(lmfit, newdata=Quartet[c("x")])
+predicted
+
+actual <- Quartet$y3
+
+rmse   <- (mean((predicted -actual)^2))^0.5
+rmse
+
+mu      <- mean(actual)
+rse     <- mean((predicted -actual)^2)/mean((mu - actual)^2)
+rsquare <- 1 - rse
+rsquare
+
+
+## 線性模型評估 (rlm)
+plot(y3 ~ x, data = Quartet)
+lmfit <- rlm(y3~x, data = Quartet)
+abline(lmfit, col="red")
+predicted <- predict(lmfit, newdata=Quartet[c("x")])
+predicted
+
+actual <- Quartet$y3
+
+rmse   <- (mean((predicted -actual)^2))^0.5
+rmse
+
+mu      <- mean(actual)
+rse     <- mean((predicted -actual)^2)/mean((mu - actual)^2)
+rsquare <-  1 - rse
+rsquare
+
+
+## 多元迴歸分析(Multiple Regression)
