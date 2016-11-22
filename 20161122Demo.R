@@ -137,3 +137,24 @@ rsquare
 
 
 ## 多元迴歸分析(Multiple Regression)
+house_prices <- read.csv(file="/tmp/house-prices.csv")
+names(house_prices)
+str(house_prices)
+lm.1 <-lm(Price ~ SqFt, data=house_prices)
+summary(lm.1)
+
+
+house_prices$brick_d<-ifelse(house_prices$Brick=="Yes",1,0)
+house_prices$east   <-ifelse(house_prices$Neighborhood=="East",1,0)
+house_prices$north  <-ifelse(house_prices$Neighborhood=="North",1,0)
+
+
+set.seed(110)
+sub<-sample(nrow(house_prices), floor(nrow(house_prices)*0.6))
+training_data   <- house_prices[sub,]
+validation_data <- house_prices[-sub,]
+
+
+lm.fit1 <-lm(Price ~ SqFt+Bathrooms+Bedrooms+Offers+north+east+brick_d, 
+             data=training_data)
+summary(lm.fit1)
