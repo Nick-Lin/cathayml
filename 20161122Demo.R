@@ -23,3 +23,23 @@ X <- c(17,   21,  35,  39,  50,  65)
 Y <- c(132, 150, 160, 162, 149, 170)
 fit <- lm(Y ~ X)
 fit
+?lm
+
+
+## 使用Quartet 資料集
+library(car)
+data(Quartet)
+View(Quartet)
+plot(y1 ~ x, data = Quartet)
+
+## 使用lm 做一項式回歸分析
+fit <- lm(y1 ~ x, data = Quartet)
+fit
+
+## 將迴歸模型繪製在圖上
+abline(fit, col="red")
+
+## 產生預測結果
+predict(fit, data.frame(x=c(16, 18)))
+16 * 0.5001 + 3.0001
+18 * 0.5001 + 3.0001
