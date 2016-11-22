@@ -67,3 +67,21 @@ fit2$fit[order(Quartet$x)]
 plot(y2 ~ x, data = Quartet)
 lines(sort(Quartet$x), fit2$fit[order(Quartet$x)], col="blue")
 predict(fit2, data.frame(x=c(16, 18)))
+
+## 可容錯的回歸(rlm)
+plot(y3 ~ x, data = Quartet)
+fit3 <- lm(y3 ~ x, data = Quartet)
+abline(fit3, col="red")
+
+library(MASS)
+?rlm
+fit4 <- rlm(y3 ~ x, data = Quartet)
+abline(fit4, col="blue")
+
+## 分析台北市大安區 591租屋網的租金資訊
+house <- read.csv('/tmp/591.csv', header = TRUE)
+plot(Price ~ Area, data= house)
+fit <- lm(Price ~ Area, data= house)
+fit
+abline(fit, col="red")
+predict(fit, data.frame(Area = c(32)))
