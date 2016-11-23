@@ -87,6 +87,7 @@ abline(fit, col="red")
 predict(fit, data.frame(Area = c(20)))
 
 ## 線性模型評估
+data(Quartet)
 plot(y2 ~ x, data = Quartet)
 fit1 <- lm(y2 ~ x, data = Quartet)
 abline(fit1, col="red")
@@ -155,6 +156,36 @@ training_data   <- house_prices[sub,]
 validation_data <- house_prices[-sub,]
 
 
-lm.fit1 <-lm(Price ~ SqFt+Bathrooms+Bedrooms+Offers+north+east+brick_d, 
-             data=training_data)
+lm.fit1 <-lm(Price ~ SqFt+Bathrooms+Bedrooms+Offers+north+east+brick_d,data=training_data)
 summary(lm.fit1)
+step(lm.fit1)
+vif(lm.fit1)
+
+training_data$predict.price  <- predict(lm.fit1)
+training_data$error          <- residuals(lm.fit1)
+
+validation_data$predict.price <- predict(lm.fit1, newdata = validation_data)
+validation_data$error         <- validation_data$predict.price - validation_data$Price 
+
+hist(training_data$error)
+hist(validation_data$error)
+
+a<-cor(training_data$Price,training_data$predict.price)
+b<-cor(validation_data$Price,validation_data$predict.price)
+a * a
+b * b
+
+## 使用step 與 stepAIC 挑變數
+step(lm.fit1)
+
+library(MASS)
+?stepAIC
+stepAIC(lm.fit1)
+
+## 使用step 與 stepAIC 挑591房屋網變數
+house <- read.csv('/tmp/591.csv', header = TRUE)
+names(house)
+fit <- lm(Price ~ Area + Floor + TotalFloor + Bedroom + Living.Room + Bathroom, data= house)
+summary(fit)
+lm.fit.step <- step(fit)
+summary(lm.fit.step)
