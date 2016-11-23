@@ -52,7 +52,7 @@ predicted2 <- predict(fit2, iris[,1:4], type= "response")
 table(predicted2, iris[,5])
 
 
-
+## 使用SVM 做分類
 library(e1071)
 data(iris)
 fit <-svm(Species~.,iris)
