@@ -131,3 +131,16 @@ pred.rocr    <- prediction(pred.to.roc, as.factor(testset$churn))
 perf.rocr    <- performance(pred.rocr, measure ="auc", x.measure="cutoff")
 perf.tpr.rocr<-performance(pred.rocr, "tpr","fpr")
 plot(perf.tpr.rocr, colorize=T,main=paste("AUC:",(perf.rocr@y.values)))
+
+
+
+## PCA Application
+dataset <-read.csv('/tmp/eco_index.csv',head=TRUE, sep=',', row.names=1)
+pc.cr   <- princomp(dataset, cor=TRUE)
+plot(pc.cr)
+
+
+screeplot(pc.cr, type="lines")
+abline(h=1, lty=3, col="red")
+biplot(pc.cr)
+barplot(sort(pc.cr$score[,1], decreasing = TRUE), col=as.factor(rownames(pc.cr$scores)))
