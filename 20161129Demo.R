@@ -134,6 +134,18 @@ plot(perf.tpr.rocr, colorize=T,main=paste("AUC:",(perf.rocr@y.values)))
 
 
 
+## Clustering
+data(iris)
+data <- iris[,-5]
+class<- iris[,5]
+
+results <- kmeans(data,3)
+results$cluster
+
+par(mfrow=c(1,2))
+plot(data$Petal.Length ~ data$Petal.Width, col=results$cluster)
+plot(data$Petal.Length ~ data$Petal.Width, col=class)
+
 ## PCA Application
 dataset <-read.csv('/tmp/eco_index.csv',head=TRUE, sep=',', row.names=1)
 pc.cr   <- princomp(dataset, cor=TRUE)
